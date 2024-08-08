@@ -1,3 +1,4 @@
+import { getLocalStorageData, saveLocalStorageData } from "@/lib/localstorage"
 import Proptypes from "prop-types"
 import { createContext, useContext, useEffect, useMemo, useState } from "react"
 
@@ -18,7 +19,7 @@ export function ThemeProvider({
   ...props
 }) {
   const [theme, setTheme] = useState(
-    () => localStorage.getItem(storageKey) || defaultTheme,
+    () => getLocalStorageData(storageKey) || defaultTheme,
   )
 
   useEffect(() => {
@@ -46,7 +47,8 @@ export function ThemeProvider({
     return {
       theme,
       setTheme: (theme) => {
-        localStorage.setItem(storageKey, theme)
+        // Save theme to local storage and update state
+        saveLocalStorageData(storageKey, theme)
         setTheme(theme)
       },
     }
